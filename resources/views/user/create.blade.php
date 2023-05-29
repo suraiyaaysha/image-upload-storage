@@ -52,7 +52,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        {{-- Only show uploaded image/ Normally we do like this --}}
+                        {{-- <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">Profile Pic</label>
                             <div class="col-sm-9">
                               <input type="file" class="form-control" name="image" @error('image') is-invalid @enderror>
@@ -62,7 +63,24 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                        </div> --}}
+                        {{-- Only show uploaded image/ Normally we do like this --}}
+
+                        {{-- Image Upload with Preview --}}
+                         <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label">Profile Pic</label>
+                            <div class="col-sm-9">
+                              <input type="file" class="form-control" name="image" @error('image') is-invalid @enderror id="selectImage">
+                            </div>
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            <img id="preview" src="#" alt="your image" class="mt-3" style="display:none;"/>
                         </div>
+                        {{-- Image Upload with Preview --}}
+
 
                         <div class="row mb-3">
                             <label class="col-sm-3 col-form-label"></label>
@@ -77,3 +95,18 @@
     </div>
 </div>
 @endsection
+
+{{-- Script for Uploaded image preview show --}}
+@push('script')
+    <script>
+        selectImage.onchange = evt => {
+            preview = document.getElementById('preview');
+            preview.style.display = 'block';
+            const [file] = selectImage.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+@endpush
+{{-- Script for Uploaded image preview show --}}
